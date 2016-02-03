@@ -1,0 +1,33 @@
+{
+  "name": "myhead-processor",
+  "version": "1.0.0",
+  "description": "Markdown yaml header processor for myhead module",
+  "main": "myhead-processor.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/indieforger/myhead-processor.git"
+  },
+  "keywords": [
+    "myhead",
+    "processor",
+    "yml",
+    "git",
+    "header"
+  ],
+  "author": "https://github.com/indieforger",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/indieforger/myhead-processor/issues"
+  },
+  "homepage": "https://github.com/indieforger/myhead-processor#readme",
+  "dependencies": {
+    "myhead": "^1.0.3"
+  },
+  "devDependencies": {
+    "mocha": "^2.4.5",
+    "should": "^8.2.1",
+  }
+}
