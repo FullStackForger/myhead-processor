@@ -12,13 +12,22 @@ describe('#getCreationDate()', function () {
       .getCreationDate(mockFilePath)
       .then((stdout) => {
         let testTime = (new Date(creationDate)).getTime()
-        let expTime = (new Date(creationDate)).getTime()
+        let expTime = (new Date(stdout)).getTime()
         try {
           testTime.should.be.exactly(expTime)
           done()
         } catch (err) { done(err) }
-      }).catch((error) => {
-        console.log(`error: ${error}`)
-      })
+      }).catch((error) => done(error))
+  })
+
+  it('should report error', function (done) {
+    processor
+      .getCreationDate('broken-file-name')
+      .then((stdout) => {
+          done(new Error('Unexpected Error'))
+      }).catch((error) => { try {
+        error.message.should.startWith('ENOENT: no such file or directory')
+        done()
+      } catch (err) { done(err) }})
   })
 })
