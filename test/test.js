@@ -34,11 +34,11 @@ describe('#getCreationDate()', function () {
 
 describe('#getLastUpdateDate()', function () {
   it('should return date', function (done) {
-    let creationDate = 'Wed Feb 3 20:40:33 2016 +0000'
+    let updateDate = 'Wed Feb 3 20:40:33 2016 +0000'
     processor
       .getLastUpdateDate(mockFilePath)
       .then((stdout) => {
-        let testTime = (new Date(creationDate)).getTime()
+        let testTime = (new Date(updateDate)).getTime()
         let expTime = (new Date(stdout)).getTime()
         try {
           testTime.should.be.exactly(expTime)
@@ -50,6 +50,32 @@ describe('#getLastUpdateDate()', function () {
   it('should report error', function (done) {
     processor
       .getLastUpdateDate('broken-file-name')
+      .then((stdout) => {
+          done(new Error('Unexpected Error'))
+      }).catch((error) => { try {
+        error.message.should.startWith('ENOENT: no such file or directory')
+        done()
+      } catch (err) { done(err) }})
+  })
+})
+
+
+describe('#getAuthors()', function () {
+  it('should return date', function (done) {
+    let author = 'IndieForger <indieforger@gmail.com>'
+    processor
+      .getAuthors(mockFilePath)
+      .then((authors) => {
+        try {
+          authors[0].should.be.exactly(author)
+          done()
+        } catch (err) { done(err) }
+      }).catch((error) => done(error))
+  })
+
+  it('should report error', function (done) {
+    processor
+      .getAuthors('broken-file-name')
       .then((stdout) => {
           done(new Error('Unexpected Error'))
       }).catch((error) => { try {

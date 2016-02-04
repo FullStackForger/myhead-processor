@@ -8,6 +8,21 @@ const
 
 module.exports = processor
 
+processor.getAuthors = function (filename) {
+  return new Promise((resolve, reject) => {
+    // grep list of authors from the file log
+    let bashCmd = `git log ${filename} | grep "^Author: " | sort | uniq`
+    internal
+      .runBashCommand(bashCmd, filename)
+      .then((stdout) => {
+        return resolve(stdout
+          .replace(/^Author:\s/, '')
+          .split('\n')
+          .filter((author) => { return author != "" } ))
+      }).catch((err) => reject(err))
+  })
+}
+
 processor.getCreationDate = function(filename) {
   // source: http://stackoverflow.com/questions/2390199/finding-the-date-time-a-file-was-first-added-to-a-git-repository
   let bashCmd = `git log --diff-filter=A --follow --format=%aD -1 -- ${filename}`
